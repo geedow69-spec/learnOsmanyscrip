@@ -1,0 +1,1409 @@
+<!doctype html>
+<html lang="so">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Far Cismaaniya Qiyaas</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            background-attachment: fixed;
+            min-height: 100%;
+            overflow-x: hidden;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        /* Animated background blur circles */
+        body::before,
+        body::after {
+            content: '';
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 8s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        body::before {
+            width: 300px;
+            height: 300px;
+            background: rgba(13, 71, 161, 0.5);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        body::after {
+            width: 400px;
+            height: 400px;
+            background: rgba(1, 87, 155, 0.4);
+            bottom: -150px;
+            left: -150px;
+            animation-delay: 2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        /* Navbar Glassmorphism */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 12px 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .logo-container {
+            display: none;
+        }
+
+        .logo-placeholder {
+            font-size: 1.8em;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        .logo-text {
+            color: white;
+            font-size: 0.75em;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .navbar-title {
+            color: white;
+            font-size: 1.1em;
+            font-weight: 700;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            flex: 1;
+            text-align: center;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 25px 18px;
+            max-width: 500px;
+            width: calc(100% - 30px);
+            margin: 20px auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 1.8em;
+            font-weight: 800;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-text {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+        }
+
+        .instructions {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 18px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .instructions p {
+            margin: 0;
+            color: white;
+            line-height: 1.6;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            font-size: 0.95em;
+        }
+
+        .game-area {
+            display: none;
+        }
+
+        .game-area.active {
+            display: block;
+        }
+
+        .question-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .question-number {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95em;
+            margin-bottom: 12px;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .osmanya-character {
+            font-size: 5em;
+            color: white;
+            margin: 15px 0;
+            font-weight: bold;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5));
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            color: white;
+            margin-bottom: 15px;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            font-size: 1em;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            box-sizing: border-box;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+        }
+
+        input[type="text"]::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+        }
+
+        .button {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 14px 30px;
+            font-size: 1em;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-weight: 700;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background: rgba(255, 255, 255, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .button:active {
+            transform: translateY(0);
+        }
+
+        .button:disabled {
+            background: rgba(255, 255, 255, 0.1);
+            cursor: not-allowed;
+            transform: none;
+            opacity: 0.6;
+        }
+
+        .feedback {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 15px;
+            font-size: 0.95em;
+            text-align: center;
+            display: none;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .feedback.correct {
+            background: rgba(52, 211, 153, 0.3);
+            color: white;
+            box-shadow: 0 4px 15px rgba(52, 211, 153, 0.2);
+            display: block;
+        }
+
+        .feedback.incorrect {
+            background: rgba(248, 113, 113, 0.3);
+            color: white;
+            box-shadow: 0 4px 15px rgba(248, 113, 113, 0.2);
+            display: block;
+        }
+
+        .score-container {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 18px;
+            margin-bottom: 18px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .score {
+            font-size: 1.3em;
+            color: white;
+            font-weight: 800;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .results {
+            display: none;
+            text-align: center;
+        }
+
+        .results.active {
+            display: block;
+        }
+
+        .results h2 {
+            color: white;
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .final-score {
+            font-size: 2.5em;
+            color: white;
+            margin: 20px 0;
+            font-weight: 800;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
+        }
+
+        .results-message {
+            font-size: 1.05em;
+            color: white;
+            margin-bottom: 25px;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            line-height: 1.6;
+        }
+
+        .start-screen {
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin-bottom: 18px;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.5) 100%);
+            width: 0%;
+            transition: width 0.3s;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .game-card {
+            padding: 18px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 18px;
+            transition: all 0.3s;
+        }
+
+        .game-card:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .game-icon {
+            font-size: 2.5em;
+            margin-bottom: 8px;
+            filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.2));
+        }
+
+        .game-name {
+            font-size: 0.95em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .game-desc {
+            font-size: 0.8em;
+            opacity: 0.9;
+            margin-top: 5px;
+        }
+
+        .header-with-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .mini-logo {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive - Tablet iyo Desktop */
+        @media (min-width: 640px) {
+            .navbar-title {
+                font-size: 1.4em;
+            }
+
+            .logo-text {
+                display: inline;
+                font-size: 0.85em;
+            }
+
+            .logo-placeholder {
+                font-size: 2em;
+            }
+
+            .container {
+                padding: 35px 25px;
+                border-radius: 30px;
+                max-width: 600px;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .welcome-text {
+                font-size: 1.1em;
+            }
+
+            .instructions p {
+                font-size: 1em;
+            }
+
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+
+            .osmanya-character {
+                font-size: 7em;
+            }
+
+            .question-text {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 700px;
+                padding: 40px 30px;
+            }
+
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body><!-- Navbar Glassmorphism -->
+  <nav class="navbar">
+   <div class="navbar-content">
+    <div class="navbar-title" id="navbar-title">
+     Far Cismaaniya
+    </div>
+   </div>
+  </nav>
+  <main class="container">
+   <div class="start-screen" id="startScreen">
+    <p class="welcome-text" id="welcome-message">Ku soo dhowoow Ciyaarta Far Soomaali Cismaaniya!</p>
+    <div class="instructions">
+     <p id="instruction-text">📝 <strong>Ujeeddada:</strong> Dooro ciyaar si aad u barato Far Cismaaniya!</p>
+    </div>
+    <div class="game-grid"><button class="button game-card" id="game1Button">
+      <div class="game-icon">
+       🔤
+      </div>
+      <div class="game-name">
+       Ciyaar 1: Xuruufta
+      </div>
+      <div class="game-desc">
+       Baro xuruufta Cismaaniya
+      </div></button> <button class="button game-card" id="game2Button">
+      <div class="game-icon">
+       ✍️
+      </div>
+      <div class="game-name">
+       Ciyaar 2: Erayada
+      </div>
+      <div class="game-desc">
+       Qor erayada Cismaaniya
+      </div></button> <button class="button game-card" id="game3Button">
+      <div class="game-icon">
+       🔢
+      </div>
+      <div class="game-name">
+       Ciyaar 3: Tirooyinka
+      </div>
+      <div class="game-desc">
+       Baro tirooyinka Cismaaniya
+      </div></button> <button class="button game-card" id="game4Button">
+      <div class="game-icon">
+       📝
+      </div>
+      <div class="game-name">
+       Ciyaar 4: Jumladaha
+      </div>
+      <div class="game-desc">
+       Qor jumlad buuxda Cismaaniya
+      </div></button> <button class="button game-card" id="game5Button">
+      <div class="game-icon">
+       🔍
+      </div>
+      <div class="game-name">
+       Ciyaar 5: Kala Saar Farta
+      </div>
+      <div class="game-desc">
+       Garo Cismaaniya ama Laatiin
+      </div></button>
+    </div>
+   </div><!-- CIYAAR 1: XURUUFTA -->
+   <div class="game-area" id="gameArea">
+    <div class="progress-bar">
+     <div class="progress-fill" id="progressBar"></div>
+    </div>
+    <div class="score-container">
+     <div class="score" id="scoreDisplay">
+      Dhibco: 0/10
+     </div>
+    </div>
+    <div class="question-container">
+     <div class="question-number" id="questionNumber">
+      Su'aasha 1/10
+     </div>
+     <div class="osmanya-character" id="osmanyaChar">
+      𐒁
+     </div>
+     <p class="question-text">Waa maxay xarafka Laatiinka ee u dhigma xarafkan?</p>
+    </div>
+    <div class="input-group"><label for="answerInput" style="position: absolute; left: -9999px;">Jawaabta</label> <input type="text" id="answerInput" placeholder="Ku qor jawaabta (tusaale: b, sh, kh)">
+    </div><button class="button" id="submitButton">📝 Soo Dir Jawaabta</button>
+    <div class="feedback" id="feedback"></div><button class="button" id="nextButton" style="display: none; margin-top: 12px;">➡️ Su'aasha Xigta</button>
+   </div>
+   <div class="results" id="results">
+    <h2>🎉 Ciyaartii waa dhamaatay!</h2>
+    <div class="final-score" id="finalScore">
+     0/10
+    </div>
+    <p class="results-message" id="resultsMessage">Aad ayaad u fiican tahay!</p><button class="button" id="restartButton">��� Ku celceli Ciyaarta</button>
+   </div><!-- CIYAAR 2: ERAYADA -->
+   <div class="game-area" id="game2Area">
+    <div class="progress-bar">
+     <div class="progress-fill" id="progressBar2"></div>
+    </div>
+    <div class="score-container">
+     <div class="score" id="scoreDisplay2">
+      Dhibco: 0/7
+     </div>
+    </div>
+    <div class="question-container">
+     <div class="question-number" id="questionNumber2">
+      Erayga 1/7
+     </div>
+     <p class="question-text" style="font-size: 1.4em; font-weight: bold; margin-bottom: 15px;" id="latinWord">NABAD</p>
+     <p class="question-text">U beddel Far Cismaaniya ah:</p>
+    </div>
+    <div class="input-group"><label for="answerInput2" style="position: absolute; left: -9999px;">Jawaabta Cismaaniya</label> <input type="text" id="answerInput2" placeholder="Qor erayga Cismaaniya" style="font-size: 1.2em; text-align: center;">
+    </div><button class="button" id="submitButton2">📝 Soo Dir Jawaabta</button>
+    <div class="feedback" id="feedback2"></div><button class="button" id="nextButton2" style="display: none; margin-top: 12px;">➡️ Erayga Xigta</button>
+   </div>
+   <div class="results" id="results2">
+    <h2>🎉 Ciyaartii waa dhamaatay!</h2>
+    <div class="final-score" id="finalScore2">
+     0/7
+    </div>
+    <p class="results-message" id="resultsMessage2">Aad ayaad u fiican tahay!</p><button class="button" id="restartButton2">🔄 Ku celceli Ciyaarta</button>
+   </div><!-- CIYAAR 3: TIROOYINKA -->
+   <div class="game-area" id="game3Area">
+    <div class="progress-bar">
+     <div class="progress-fill" id="progressBar3"></div>
+    </div>
+    <div class="score-container">
+     <div class="score" id="scoreDisplay3">
+      Dhibco: 0/10
+     </div>
+    </div>
+    <div class="question-container">
+     <div class="question-number" id="questionNumber3">
+      Tirada 1/10
+     </div>
+     <p class="question-text" style="font-size: 2.5em; font-weight: bold; margin: 20px 0;" id="latinNumber">25</p>
+     <p class="question-text">U beddel Tiro Cismaaniya ah:</p>
+    </div>
+    <div class="input-group"><label for="answerInput3" style="position: absolute; left: -9999px;">Jawaabta Tirada Cismaaniya</label> <input type="text" id="answerInput3" placeholder="Qor tirada Cismaaniya" style="font-size: 1.5em; text-align: center;">
+    </div><button class="button" id="submitButton3">📝 Soo Dir Jawaabta</button>
+    <div class="feedback" id="feedback3"></div><button class="button" id="nextButton3" style="display: none; margin-top: 12px;">➡️ Tirada Xigta</button>
+   </div>
+   <div class="results" id="results3">
+    <h2>🎉 Ciyaartii waa dhamaatay!</h2>
+    <div class="final-score" id="finalScore3">
+     0/10
+    </div>
+    <p class="results-message" id="resultsMessage3">Aad ayaad u fiican tahay!</p><button class="button" id="restartButton3">🔄 Ku celceli Ciyaarta</button>
+   </div><!-- CIYAAR 4: JUMLADAHA -->
+   <div class="game-area" id="game4Area">
+    <div class="progress-bar">
+     <div class="progress-fill" id="progressBar4"></div>
+    </div>
+    <div class="score-container">
+     <div class="score" id="scoreDisplay4">
+      Dhibco: 0/5
+     </div>
+    </div>
+    <div class="question-container">
+     <div class="question-number" id="questionNumber4">
+      Jumladda 1/5
+     </div>
+     <p class="question-text" style="font-size: 1.15em; font-weight: bold; margin-bottom: 20px; line-height: 1.6;" id="latinSentence">Dhaqankayaga waa khayr iyo nabad</p>
+     <p class="question-text">U beddel Jumlad Cismaaniya ah:</p>
+    </div>
+    <div class="input-group"><label for="answerInput4" style="position: absolute; left: -9999px;">Jawaabta Jumladda Cismaaniya</label> <input type="text" id="answerInput4" placeholder="Qor jumladda Cismaaniya" style="font-size: 1.1em; text-align: center;">
+    </div><button class="button" id="submitButton4">📝 Soo Dir Jawaabta</button>
+    <div class="feedback" id="feedback4"></div><button class="button" id="nextButton4" style="display: none; margin-top: 12px;">➡️ Jumladda Xigta</button>
+   </div>
+   <div class="results" id="results4">
+    <h2>🎉 Ciyaartii waa dhamaatay!</h2>
+    <div class="final-score" id="finalScore4">
+     0/5
+    </div>
+    <p class="results-message" id="resultsMessage4">Aad ayaad u fiican tahay!</p><button class="button" id="restartButton4">🔄 Ku celceli Ciyaarta</button>
+   </div><!-- CIYAAR 5: KALA SAAR FARTA -->
+   <div class="game-area" id="game5Area">
+    <div class="progress-bar">
+     <div class="progress-fill" id="progressBar5"></div>
+    </div>
+    <div class="score-container">
+     <div class="score" id="scoreDisplay5">
+      Dhibco: 0/8
+     </div>
+    </div>
+    <div class="question-container">
+     <div class="question-number" id="questionNumber5">
+      Su'aasha 1/8
+     </div>
+     <p class="question-text" style="font-size: 1.8em; font-weight: bold; margin: 20px 0; line-height: 1.6;" id="mixedText">����𐒕 𐒓𐒖𐒆</p>
+     <p class="question-text">Waa maxay nooca farta?</p>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px;"><button class="button" id="cismaaniyaBtn" style="padding: 16px 10px; font-size: 0.9em;"> 🔤 Cismaaniya </button> <button class="button" id="laatiinBtn" style="padding: 16px 10px; font-size: 0.9em;"> 🔠 Laatiin </button>
+    </div>
+    <div class="feedback" id="feedback5"></div><button class="button" id="nextButton5" style="display: none; margin-top: 12px;">➡️ Su'aasha Xigta</button>
+   </div>
+   <div class="results" id="results5">
+    <h2>🎉 Ciyaartii waa dhamaatay!</h2>
+    <div class="final-score" id="finalScore5">
+     0/8
+    </div>
+    <p class="results-message" id="resultsMessage5">Aad ayaad u fiican tahay!</p><button class="button" id="restartButton5">🔄 Ku celceli Ciyaarta</button>
+   </div>
+  </main>
+  <script>
+        const defaultConfig = {
+            navbar_title: "Far Cismaaniya",
+            game_title: "Far Cismaaniya Qiyaas",
+            welcome_message: "Ku soo dhowoow Ciyaarta Far Soomaali Cismaaniya!",
+            instruction_text: "📝 Ujeeddada: Dooro ciyaar si aad u barato Far Cismaaniya!",
+            logo_text: "🖼️ Logo",
+            background_color: "#1a237e",
+            card_color: "#ffffff",
+            primary_color: "#0d47a1",
+            text_color: "#ffffff",
+            accent_color: "#01579b"
+        };
+
+        const osmanyaMap = {
+            '𐒁': 'b', '𐒂': 't', '𐒃': 'j', '𐒄': 'x', '𐒅': 'kh',
+            '��': 'd', '𐒇': 'r', '𐒈': 's', '𐒉': 'sh', '𐒊': 'dh',
+            '𐒋': 'c', '𐒌': 'g', '𐒍': 'f', '𐒎': 'q', '��': 'k',
+            '𐒐': 'l', '𐒑': 'm', '��': 'n', '���': 'w', '𐒔': 'h',
+            '𐒕': 'y',
+            '𐒖': 'a', '𐒗': 'e', '𐒘': 'i', '𐒙': 'o', '𐒚': 'u',
+            '𐒛': 'aa', '𐒜': 'ee', '𐒝': 'oo'
+        };
+
+        const osmanyaNumbers = {
+            '0': '𐒠', '1': '𐒡', '2': '𐒢', '3': '𐒣', '4': '𐒤',
+            '5': '𐒥', '6': '𐒦', '7': '𐒧', '8': '𐒨', '9': '𐒩'
+        };
+
+        const osmanyaChars = Object.keys(osmanyaMap);
+        let currentQuestion = 0;
+        let correctAnswers = 0;
+        let currentChar = '';
+        let correctAnswer = '';
+        let usedChars = [];
+
+        const soomaaliWords = ["Nabad", "Qalin", "Dhaqdhaqaaq", "Shire", "Khayr", "Gudoomiye", "Soomaalida"];
+        let currentWordIndex = 0;
+        let correctAnswers2 = 0;
+        let shuffledWords = [];
+
+        let currentNumberIndex = 0;
+        let correctAnswers3 = 0;
+        let shuffledNumbers = [];
+
+        const soomaaliSentences = [
+            "Dhaqankayaga waa khayr iyo nabad",
+            "Soomaaliya waa dal qurux badan",
+            "Barashadu waa iftiin",
+            "Nabadgelyo iyo horumar",
+            "Afka hooyo waa aasaaska aqoonta"
+        ];
+        let currentSentenceIndex = 0;
+        let correctAnswers4 = 0;
+        let shuffledSentences = [];
+
+        const scriptSamples = [
+            { text: "𐒈𐒕 𐒓𐒖𐒆", type: "cismaaniya" },
+            { text: "Sii Wad", type: "laatiin" },
+            { text: "𐒋𐒚𐒂𐒚𐒁��𐒖", type: "cismaaniya" },
+            { text: "Nabad iyo Nolol", type: "laatiin" },
+            { text: "𐒒𐒖𐒁𐒖𐒆𐒌𐒗𐒐𐒕𐒙", type: "cismaaniya" },
+            { text: "Barashada Far Soomaali", type: "laatiin" },
+            { text: "𐒆𐒖𐒎𐒖𐒒𐒏𐒖𐒕𐒖𐒌𐒖", type: "cismaaniya" },
+            { text: "Guul iyo Horumar", type: "laatiin" }
+        ];
+        let currentScriptIndex = 0;
+        let correctAnswers5 = 0;
+        let shuffledScripts = [];
+
+        function latinToOsmanya(text) {
+            const map = {
+                'kh': '𐒅', 'sh': '𐒉', 'dh': '𐒊',
+                'aa': '𐒛', 'ee': '𐒜', 'ii': '𐒕', 'oo': '𐒝', 'uu': '𐒓',
+                'b': '𐒁', 't': '𐒂', 'j': '𐒃', 'x': '𐒄', 'd': '𐒆',
+                'r': '𐒇', 's': '𐒈', 'c': '𐒋', 'g': '𐒌', 'f': '𐒍',
+                'q': '𐒎', 'k': '𐒏', 'l': '𐒐', 'm': '𐒑', 'n': '𐒒',
+                'w': '𐒓', 'h': '𐒔', 'y': '𐒕',
+                'a': '𐒖', 'e': '𐒗', 'i': '𐒘', 'o': '𐒙', 'u': '𐒚'
+            };
+            
+            let textLower = text.toLowerCase();
+            let result = "";
+            let i = 0;
+            
+            while (i < textLower.length) {
+                let osmanyaChar = null;
+                
+                if (i + 2 <= textLower.length) {
+                    let twoChars = textLower.substring(i, i + 2);
+                    if (map[twoChars]) {
+                        osmanyaChar = map[twoChars];
+                        i += 2;
+                    }
+                }
+                
+                if (osmanyaChar === null) {
+                    let oneChar = textLower[i];
+                    if (map[oneChar]) {
+                        osmanyaChar = map[oneChar];
+                        i += 1;
+                    } else {
+                        osmanyaChar = text[i];
+                        i += 1;
+                    }
+                }
+                
+                result += osmanyaChar;
+            }
+            
+            return result;
+        }
+
+        function numberToOsmanya(number) {
+            let result = "";
+            for (let digit of number.toString()) {
+                result += osmanyaNumbers[digit];
+            }
+            return result;
+        }
+
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function updateUI(config) {
+            document.getElementById('navbar-title').textContent = config.navbar_title || defaultConfig.navbar_title;
+            document.getElementById('navbar-logo-text').textContent = config.logo_text || defaultConfig.logo_text;
+            document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
+            document.getElementById('instruction-text').innerHTML = (config.instruction_text || defaultConfig.instruction_text).replace('📝 Ujeeddada:', '📝 <strong>Ujeeddada:</strong>');
+
+            const bgColor = config.background_color || defaultConfig.background_color;
+            const primaryColor = config.primary_color || defaultConfig.primary_color;
+            const accentColor = config.accent_color || defaultConfig.accent_color;
+            
+            document.body.style.background = `linear-gradient(135deg, ${bgColor} 0%, ${primaryColor} 50%, ${accentColor} 100%)`;
+        }
+
+        async function onConfigChange(config) {
+            updateUI(config);
+        }
+
+        function startGame() {
+            currentQuestion = 0;
+            correctAnswers = 0;
+            usedChars = [];
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('gameArea').classList.add('active');
+            document.getElementById('results').classList.remove('active');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            let availableChars = osmanyaChars.filter(char => !usedChars.includes(char));
+            if (availableChars.length === 0) {
+                availableChars = [...osmanyaChars];
+                usedChars = [];
+            }
+            
+            currentChar = availableChars[Math.floor(Math.random() * availableChars.length)];
+            usedChars.push(currentChar);
+            correctAnswer = osmanyaMap[currentChar];
+            
+            document.getElementById('questionNumber').textContent = `Su'aasha ${currentQuestion + 1}/10`;
+            document.getElementById('osmanyaChar').textContent = currentChar;
+            document.getElementById('answerInput').value = '';
+            document.getElementById('feedback').style.display = 'none';
+            document.getElementById('submitButton').style.display = 'block';
+            document.getElementById('nextButton').style.display = 'none';
+            document.getElementById('answerInput').disabled = false;
+            document.getElementById('answerInput').focus();
+            
+            const progress = ((currentQuestion) / 10) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function submitAnswer() {
+            const userAnswer = document.getElementById('answerInput').value.trim().toLowerCase();
+            const feedback = document.getElementById('feedback');
+            
+            if (!userAnswer) {
+                return;
+            }
+            
+            document.getElementById('answerInput').disabled = true;
+            document.getElementById('submitButton').style.display = 'none';
+            
+            if (userAnswer === correctAnswer) {
+                correctAnswers++;
+                feedback.className = 'feedback correct';
+                feedback.textContent = '✅ SAX! Aad ayaad u fiican tahay.';
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `❌ KHALAD! Jawaabta saxda ah waa: '${correctAnswer}'`;
+            }
+            
+            document.getElementById('scoreDisplay').textContent = `Dhibco: ${correctAnswers}/10`;
+            document.getElementById('nextButton').style.display = 'block';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            
+            if (currentQuestion >= 10) {
+                showResults();
+            } else {
+                loadQuestion();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('gameArea').classList.remove('active');
+            document.getElementById('results').classList.add('active');
+            document.getElementById('finalScore').textContent = `${correctAnswers}/10`;
+            
+            let message = '';
+            if (correctAnswers === 10) {
+                message = '🏆 Heerka sare! Waxaad si fiican u baratay xuruufta!';
+            } else if (correctAnswers >= 7) {
+                message = '🌟 Aad ayaad u fiican tahay! Sii wad!';
+            } else if (correctAnswers >= 5) {
+                message = '👍 Si fiican ayaad u socotaa! Ku celceli si aad wax badan u barato.';
+            } else {
+                message = '💪 Ku celceli si aad u xifdiso xuruufta Cismaaniya!';
+            }
+            
+            document.getElementById('resultsMessage').textContent = message;
+            document.getElementById('progressBar').style.width = '100%';
+        }
+
+        function restartGame() {
+            document.getElementById('results').classList.remove('active');
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('progressBar').style.width = '0%';
+        }
+
+        function startGame2() {
+            currentWordIndex = 0;
+            correctAnswers2 = 0;
+            shuffledWords = shuffleArray(soomaaliWords);
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('game2Area').classList.add('active');
+            document.getElementById('results2').classList.remove('active');
+            loadWord();
+        }
+
+        function loadWord() {
+            const currentWord = shuffledWords[currentWordIndex];
+            correctAnswer = latinToOsmanya(currentWord);
+            
+            document.getElementById('questionNumber2').textContent = `Erayga ${currentWordIndex + 1}/7`;
+            document.getElementById('latinWord').textContent = currentWord.toUpperCase();
+            document.getElementById('answerInput2').value = '';
+            document.getElementById('feedback2').style.display = 'none';
+            document.getElementById('submitButton2').style.display = 'block';
+            document.getElementById('nextButton2').style.display = 'none';
+            document.getElementById('answerInput2').disabled = false;
+            document.getElementById('answerInput2').focus();
+            
+            const progress = ((currentWordIndex) / 7) * 100;
+            document.getElementById('progressBar2').style.width = progress + '%';
+        }
+
+        function submitAnswer2() {
+            const userAnswer = document.getElementById('answerInput2').value.trim();
+            const feedback = document.getElementById('feedback2');
+            
+            if (!userAnswer) {
+                return;
+            }
+            
+            document.getElementById('answerInput2').disabled = true;
+            document.getElementById('submitButton2').style.display = 'none';
+            
+            if (userAnswer === correctAnswer) {
+                correctAnswers2++;
+                feedback.className = 'feedback correct';
+                feedback.textContent = `✅ SAX! Jawaabtaada waa: ${correctAnswer}`;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `❌ KHALAD! Jawaabta saxda ah waa: ${correctAnswer}`;
+            }
+            
+            document.getElementById('scoreDisplay2').textContent = `Dhibco: ${correctAnswers2}/7`;
+            document.getElementById('nextButton2').style.display = 'block';
+        }
+
+        function nextWord() {
+            currentWordIndex++;
+            
+            if (currentWordIndex >= 7) {
+                showResults2();
+            } else {
+                loadWord();
+            }
+        }
+
+        function showResults2() {
+            document.getElementById('game2Area').classList.remove('active');
+            document.getElementById('results2').classList.add('active');
+            document.getElementById('finalScore2').textContent = `${correctAnswers2}/7`;
+            
+            let message = '';
+            if (correctAnswers2 === 7) {
+                message = '🏆 Heerka sare! Waxaad si fiican u baratay erayada!';
+            } else if (correctAnswers2 >= 5) {
+                message = '🌟 Aad ayaad u fiican tahay! Sii wad!';
+            } else if (correctAnswers2 >= 3) {
+                message = '👍 Si fiican ayaad u socotaa! Ku celceli si aad wax badan u barato.';
+            } else {
+                message = '💪 Ku celceli si aad u xifdiso qorista Cismaaniya!';
+            }
+            
+            document.getElementById('resultsMessage2').textContent = message;
+            document.getElementById('progressBar2').style.width = '100%';
+        }
+
+        function restartGame2() {
+            document.getElementById('results2').classList.remove('active');
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('progressBar2').style.width = '0%';
+        }
+
+        function startGame3() {
+            currentNumberIndex = 0;
+            correctAnswers3 = 0;
+            
+            const allNumbers = [];
+            for (let i = 10; i <= 99; i++) {
+                allNumbers.push(i);
+            }
+            shuffledNumbers = shuffleArray(allNumbers).slice(0, 10);
+            
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('game3Area').classList.add('active');
+            document.getElementById('results3').classList.remove('active');
+            loadNumber();
+        }
+
+        function loadNumber() {
+            const currentNumber = shuffledNumbers[currentNumberIndex];
+            correctAnswer = numberToOsmanya(currentNumber);
+            
+            document.getElementById('questionNumber3').textContent = `Tirada ${currentNumberIndex + 1}/10`;
+            document.getElementById('latinNumber').textContent = currentNumber;
+            document.getElementById('answerInput3').value = '';
+            document.getElementById('feedback3').style.display = 'none';
+            document.getElementById('submitButton3').style.display = 'block';
+            document.getElementById('nextButton3').style.display = 'none';
+            document.getElementById('answerInput3').disabled = false;
+            document.getElementById('answerInput3').focus();
+            
+            const progress = ((currentNumberIndex) / 10) * 100;
+            document.getElementById('progressBar3').style.width = progress + '%';
+        }
+
+        function submitAnswer3() {
+            const userAnswer = document.getElementById('answerInput3').value.trim();
+            const feedback = document.getElementById('feedback3');
+            
+            if (!userAnswer) {
+                return;
+            }
+            
+            document.getElementById('answerInput3').disabled = true;
+            document.getElementById('submitButton3').style.display = 'none';
+            
+            if (userAnswer === correctAnswer) {
+                correctAnswers3++;
+                feedback.className = 'feedback correct';
+                feedback.textContent = `✅ SAX! Jawaabtaada waa: ${correctAnswer}`;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.textContent = `❌ KHALAD! Jawaabta saxda ah waa: ${correctAnswer}`;
+            }
+            
+            document.getElementById('scoreDisplay3').textContent = `Dhibco: ${correctAnswers3}/10`;
+            document.getElementById('nextButton3').style.display = 'block';
+        }
+
+        function nextNumber() {
+            currentNumberIndex++;
+            
+            if (currentNumberIndex >= 10) {
+                showResults3();
+            } else {
+                loadNumber();
+            }
+        }
+
+        function showResults3() {
+            document.getElementById('game3Area').classList.remove('active');
+            document.getElementById('results3').classList.add('active');
+            document.getElementById('finalScore3').textContent = `${correctAnswers3}/10`;
+            
+            let message = '';
+            if (correctAnswers3 === 10) {
+                message = '🏆 Heerka sare! Waxaad si fiican u baratay tirooyinka!';
+            } else if (correctAnswers3 >= 7) {
+                message = '🌟 Aad ayaad u fiican tahay! Sii wad!';
+            } else if (correctAnswers3 >= 5) {
+                message = '👍 Si fiican ayaad u socotaa! Ku celceli si aad wax badan u barato.';
+            } else {
+                message = '💪 Ku celceli si aad u xifdiso tirooyinka Cismaaniya!';
+            }
+            
+            document.getElementById('resultsMessage3').textContent = message;
+            document.getElementById('progressBar3').style.width = '100%';
+        }
+
+        function restartGame3() {
+            document.getElementById('results3').classList.remove('active');
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('progressBar3').style.width = '0%';
+        }
+
+        function startGame4() {
+            currentSentenceIndex = 0;
+            correctAnswers4 = 0;
+            shuffledSentences = shuffleArray(soomaaliSentences);
+            
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('game4Area').classList.add('active');
+            document.getElementById('results4').classList.remove('active');
+            loadSentence();
+        }
+
+        function loadSentence() {
+            const currentSentence = shuffledSentences[currentSentenceIndex];
+            correctAnswer = latinToOsmanya(currentSentence);
+            
+            document.getElementById('questionNumber4').textContent = `Jumladda ${currentSentenceIndex + 1}/5`;
+            document.getElementById('latinSentence').textContent = currentSentence;
+            document.getElementById('answerInput4').value = '';
+            document.getElementById('feedback4').style.display = 'none';
+            document.getElementById('submitButton4').style.display = 'block';
+            document.getElementById('nextButton4').style.display = 'none';
+            document.getElementById('answerInput4').disabled = false;
+            document.getElementById('answerInput4').focus();
+            
+            const progress = ((currentSentenceIndex) / 5) * 100;
+            document.getElementById('progressBar4').style.width = progress + '%';
+        }
+
+        function submitAnswer4() {
+            const userAnswer = document.getElementById('answerInput4').value.trim();
+            const feedback = document.getElementById('feedback4');
+            
+            if (!userAnswer) {
+                return;
+            }
+            
+            document.getElementById('answerInput4').disabled = true;
+            document.getElementById('submitButton4').style.display = 'none';
+            
+            if (userAnswer === correctAnswer) {
+                correctAnswers4++;
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = `✅ SAX! Aad ayaad u fiican tahay!<br><br>Jawaabtaada: <strong>${correctAnswer}</strong>`;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = `❌ KHALAD! Isku day mar kale.<br><br>Jawaabta saxda ah waa:<br><strong>${correctAnswer}</strong><br><br>Jawaabtaada ahayd:<br><strong>${userAnswer}</strong>`;
+            }
+            
+            document.getElementById('scoreDisplay4').textContent = `Dhibco: ${correctAnswers4}/5`;
+            document.getElementById('nextButton4').style.display = 'block';
+        }
+
+        function nextSentence() {
+            currentSentenceIndex++;
+            
+            if (currentSentenceIndex >= 5) {
+                showResults4();
+            } else {
+                loadSentence();
+            }
+        }
+
+        function showResults4() {
+            document.getElementById('game4Area').classList.remove('active');
+            document.getElementById('results4').classList.add('active');
+            document.getElementById('finalScore4').textContent = `${correctAnswers4}/5`;
+            
+            let message = '';
+            if (correctAnswers4 === 5) {
+                message = '🏆 Heerka sare! Waxaad si fiican u baratay jumladaha! Waxaad noqotay macallin Cismaaniya!';
+            } else if (correctAnswers4 >= 3) {
+                message = '🌟 Aad ayaad u fiican tahay! Sii wad barashadaada!';
+            } else if (correctAnswers4 >= 1) {
+                message = '👍 Si fiican ayaad u socotaa! Ku celceli si aad wax badan u barato.';
+            } else {
+                message = '💪 Ku celceli si aad u xifdiso qorista jumladaha Cismaaniya! Way adag tahay laakiin waa suurtogal!';
+            }
+            
+            document.getElementById('resultsMessage4').textContent = message;
+            document.getElementById('progressBar4').style.width = '100%';
+        }
+
+        function restartGame4() {
+            document.getElementById('results4').classList.remove('active');
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('progressBar4').style.width = '0%';
+        }
+
+        function detectScript(text) {
+            const cismaaniyaStart = 0x10480;
+            const cismaaniyaEnd = 0x104AF;
+            
+            let cismaaniyaCount = 0;
+            let totalCount = 0;
+
+            for (let char of text) {
+                if (/[a-zA-Z0-9\u10480-\u104AF]/.test(char)) {
+                    totalCount++;
+                    const codePoint = char.codePointAt(0);
+                    
+                    if (codePoint >= cismaaniyaStart && codePoint <= cismaaniyaEnd) {
+                        cismaaniyaCount++;
+                    }
+                }
+            }
+
+            if (totalCount === 0) return "unknown";
+            
+            const percentage = (cismaaniyaCount / totalCount) * 100;
+            
+            return percentage > 50 ? "cismaaniya" : "laatiin";
+        }
+
+        function startGame5() {
+            currentScriptIndex = 0;
+            correctAnswers5 = 0;
+            shuffledScripts = shuffleArray(scriptSamples);
+            
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('game5Area').classList.add('active');
+            document.getElementById('results5').classList.remove('active');
+            loadScript();
+        }
+
+        function loadScript() {
+            const currentSample = shuffledScripts[currentScriptIndex];
+            correctAnswer = currentSample.type;
+            
+            document.getElementById('questionNumber5').textContent = `Su'aasha ${currentScriptIndex + 1}/8`;
+            document.getElementById('mixedText').textContent = currentSample.text;
+            document.getElementById('feedback5').style.display = 'none';
+            document.getElementById('cismaaniyaBtn').style.display = 'inline-block';
+            document.getElementById('laatiinBtn').style.display = 'inline-block';
+            document.getElementById('nextButton5').style.display = 'none';
+            document.getElementById('cismaaniyaBtn').disabled = false;
+            document.getElementById('laatiinBtn').disabled = false;
+            
+            const progress = ((currentScriptIndex) / 8) * 100;
+            document.getElementById('progressBar5').style.width = progress + '%';
+        }
+
+        function submitAnswer5(userChoice) {
+            const feedback = document.getElementById('feedback5');
+            
+            document.getElementById('cismaaniyaBtn').disabled = true;
+            document.getElementById('laatiinBtn').disabled = true;
+            document.getElementById('cismaaniyaBtn').style.display = 'none';
+            document.getElementById('laatiinBtn').style.display = 'none';
+            
+            const currentSample = shuffledScripts[currentScriptIndex];
+            const detectedType = detectScript(currentSample.text);
+            
+            if (userChoice === correctAnswer) {
+                correctAnswers5++;
+                feedback.className = 'feedback correct';
+                feedback.innerHTML = `✅ SAX! Waa Far ${userChoice === 'cismaaniya' ? 'Cismaaniya (Osmanya)' : 'Laatiin'}.<br><br>Xaqiijinta koodhka: ${detectedType === 'cismaaniya' ? 'Waa Cismaaniya' : 'Waa Laatiin'}`;
+            } else {
+                feedback.className = 'feedback incorrect';
+                feedback.innerHTML = `❌ KHALAD! Jawaabta saxda ah waa: Far ${correctAnswer === 'cismaaniya' ? 'Cismaaniya (Osmanya)' : 'Laatiin'}.<br><br>Xaqiijinta koodhka: ${detectedType === 'cismaaniya' ? 'Waa Cismaaniya' : 'Waa Laatiin'}`;
+            }
+            
+            document.getElementById('scoreDisplay5').textContent = `Dhibco: ${correctAnswers5}/8`;
+            document.getElementById('nextButton5').style.display = 'block';
+        }
+
+        function nextScript() {
+            currentScriptIndex++;
+            
+            if (currentScriptIndex >= 8) {
+                showResults5();
+            } else {
+                loadScript();
+            }
+        }
+
+        function showResults5() {
+            document.getElementById('game5Area').classList.remove('active');
+            document.getElementById('results5').classList.add('active');
+            document.getElementById('finalScore5').textContent = `${correctAnswers5}/8`;
+            
+            let message = '';
+            if (correctAnswers5 === 8) {
+                message = '🏆 Heerka sare! Waxaad si fiican u garatay faraha kala duwan!';
+            } else if (correctAnswers5 >= 6) {
+                message = '🌟 Aad ayaad u fiican tahay! Waxaad garataa faraha kala duwan!';
+            } else if (correctAnswers5 >= 4) {
+                message = '👍 Si fiican ayaad u socotaa! Ku celceli si aad wax badan u barato.';
+            } else {
+                message = '💪 Ku celceli si aad u xifdiso garashada faraha kala duwan!';
+            }
+            
+            document.getElementById('resultsMessage5').textContent = message;
+            document.getElementById('progressBar5').style.width = '100%';
+        }
+
+        function restartGame5() {
+            document.getElementById('results5').classList.remove('active');
+            document.getElementById('startScreen').style.display = 'block';
+            document.getElementById('progressBar5').style.width = '0%';
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('game1Button').addEventListener('click', startGame);
+            document.getElementById('submitButton').addEventListener('click', submitAnswer);
+            document.getElementById('nextButton').addEventListener('click', nextQuestion);
+            document.getElementById('restartButton').addEventListener('click', restartGame);
+            
+            document.getElementById('answerInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !this.disabled) {
+                    submitAnswer();
+                }
+            });
+
+            document.getElementById('game2Button').addEventListener('click', startGame2);
+            document.getElementById('submitButton2').addEventListener('click', submitAnswer2);
+            document.getElementById('nextButton2').addEventListener('click', nextWord);
+            document.getElementById('restartButton2').addEventListener('click', restartGame2);
+            
+            document.getElementById('answerInput2').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !this.disabled) {
+                    submitAnswer2();
+                }
+            });
+
+            document.getElementById('game3Button').addEventListener('click', startGame3);
+            document.getElementById('submitButton3').addEventListener('click', submitAnswer3);
+            document.getElementById('nextButton3').addEventListener('click', nextNumber);
+            document.getElementById('restartButton3').addEventListener('click', restartGame3);
+            
+            document.getElementById('answerInput3').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !this.disabled) {
+                    submitAnswer3();
+                }
+            });
+
+            document.getElementById('game4Button').addEventListener('click', startGame4);
+            document.getElementById('submitButton4').addEventListener('click', submitAnswer4);
+            document.getElementById('nextButton4').addEventListener('click', nextSentence);
+            document.getElementById('restartButton4').addEventListener('click', restartGame4);
+            
+            document.getElementById('answerInput4').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !this.disabled) {
+                    submitAnswer4();
+                }
+            });
+
+            document.getElementById('game5Button').addEventListener('click', startGame5);
+            document.getElementById('cismaaniyaBtn').addEventListener('click', function() {
+                submitAnswer5('cismaaniya');
+            });
+            document.getElementById('laatiinBtn').addEventListener('click', function() {
+                submitAnswer5('laatiin');
+            });
+            document.getElementById('nextButton5').addEventListener('click', nextScript);
+            document.getElementById('restartButton5').addEventListener('click', restartGame5);
+        });
+
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig: defaultConfig,
+                onConfigChange: onConfigChange,
+                mapToCapabilities: (config) => ({
+                    recolorables: [
+                        {
+                            get: () => config.background_color || defaultConfig.background_color,
+                            set: (value) => {
+                                config.background_color = value;
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.primary_color || defaultConfig.primary_color,
+                            set: (value) => {
+                                config.primary_color = value;
+                                window.elementSdk.setConfig({ primary_color: value });
+                            }
+                        },
+                        {
+                            get: () => config.accent_color || defaultConfig.accent_color,
+                            set: (value) => {
+                                config.accent_color = value;
+                                window.elementSdk.setConfig({ accent_color: value });
+                            }
+                        }
+                    ],
+                    borderables: [],
+                    fontEditable: undefined,
+                    fontSizeable: undefined
+                }),
+                mapToEditPanelValues: (config) => new Map([
+                    ["navbar_title", config.navbar_title || defaultConfig.navbar_title],
+                    ["welcome_message", config.welcome_message || defaultConfig.welcome_message],
+                    ["instruction_text", config.instruction_text || defaultConfig.instruction_text],
+                    ["logo_text", config.logo_text || defaultConfig.logo_text]
+                ])
+            });
+        }
+
+        updateUI(defaultConfig);
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a1c1946102641e7',t:'MTc2MzY4NTIzOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
